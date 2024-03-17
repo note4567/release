@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3.js Bar Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="./feelings_ranking.js"></script>    <!-- ランキング作成に必要なデータの読み込み jsonだと読み込めないので js にした-->
+  </head>
+  <body>
+    <svg width="1200" height="900"></svg>
+    <button onclick="saveSvg()">Save as SVG</button>
+    <script>
+      // var data = [
+      //   { name: "部屋", value: 6.7 },
+      //   { name: "模様替え", value: 3.3 },
+      //   { name: "物", value: 2.5 },
+      //   { name: "色", value: 1.4 },
+      //   { name: "カーテン", value: 1.4 },
+      //   { name: "家具", value: 1.3 },
+      //   { name: "インテリア", value: 1.2 },
+      //   { name: "アドバイス・相談", value: 1 },
+      //   { name: "家", value: 0.9 },
+      //   { name: "私", value: 0.9 },
+      //   { name: "旦那", value: 0.9 },
+      //   { name: "畳", value: 0.9 },
+      //   { name: "自分", value: 0.8 },
+      //   { name: "子供", value: 0.8 },
+      //   { name: "感じ", value: 0.8 },
+      //   { name: "壁", value: 0.8 },
+      //   { name: "母", value: 0.7 },
+      //   { name: "白", value: 0.7 },
+      //   { name: "今", value: 0.7 },
+      //   { name: "机", value: 0.6 }
+      // ];
+
+      //var margin = { top: 30, right: 120, bottom: 30, left: 120 },
+      var margin = { top: 30, right: 70, bottom: 30, left: 120 },
+          width = 1100 - margin.left - margin.right,
+          height = 900 - margin.top - margin.bottom;
+
+      var svg = d3.select("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .style("background-color", "#000000")
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                  
+      var yScale = d3.scaleBand()
+          .range([0, height])
+          .paddingInner(0.1)  // 全体のパディングを設定
+          .paddingOuter(0)  // 最初と最後の要素のパディングを0に設定
+          .domain(data.map(function(d) { return d.name; }));
+
+      var xScale = d3.scaleLinear()
+          .range([0, width])
+          .domain([0, 3.5]);
+
+      // 縦線のデータ
+      var verticalLinesData = d3.range(0, 4, 0.5).map(function(d) {
+        return {
+          value: d,
+          label: d + "%"
+        };
+      });
+
+      // 縦線を描画するグループ要素を追加
+      var verticalLines = svg.append("g")
+        .attr("class", "vertical-lines");
+
+      // 縦線を描画
+      var lines = verticalLines.selectAll(".vertical-line")
+        .data(verticalLinesData)
+        .enter()
+        .append("line")
+        .attr("class", "vertical-line")
+        .attr("x1", function(d) { return xScale(d.value); })
+        .attr("y1", 0)
+        .attr("x2", function(d) { return xScale(d.value); })
+        .attr("y2", height)
+        .attr("stroke", "#ffffff")
+        .attr("stroke-opacity", 0.2)
+        .attr("stroke-width", 01);
+
+      var bars = svg.selectAll("rect")
+          .data(data)
+          .enter()
+          .append("rect")
+          .attr("x", 0)
+          .attr("y", function(d) { return yScale(d.name); })
+          .attr("width", function(d) { return xScale(d.value); })
+          .attr("height", yScale.bandwidth())
+          .attr("fill", "#1DDAC7");
+
+      var xAxis = d3.axisBottom()
+          .scale(xScale)
+          .tickSize(0)
+          .tickValues([])
+          .tickSizeOuter(0);
+
+
+      var yAxis = d3.axisLeft()
+          .scale(yScale)
+          .tickSize(0);
+
+      var labels = svg.selectAll(".label")
+            .data(data)
+            .enter()
+            .append("text")
+            .attr("class", "label")
+            .attr("x", -10 )
+            .attr("y", function(d) { return yScale(d.name) + yScale.bandwidth() / 2 + 6; })
+            .attr("text-anchor", "end")
+            .attr("fill", "#ffffff")
+            .style("font-size", "12px")
+            .text(function(d, i) { return d.name ; });
+
+      var percentLabels = svg.selectAll(".percent-label")
+          .data(data)
+          .enter()
+          .append("text")
+          .attr("class", "percent-label")
+          .attr("x", function(d) { return xScale(d.value) + 5; })
+          .attr("y", function(d) { return yScale(d.name) + yScale.bandwidth() / 2 + 6; })
+          .style("font-size", "12px")
+          .attr("fill", "#ffffff")
+          .text(function(d) { return d.value + "%"; });
+
+      // svg画像として保存する処理
+      function saveSvg() {
+              const svgSelection = d3.select("svg");
+              const svgData = new XMLSerializer().serializeToString(svgSelection.node());
+              const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+              const svgUrl = URL.createObjectURL(svgBlob);
+              const downloadLink = document.createElement("a");
+              downloadLink.href = svgUrl;
+              downloadLink.download = "chart.svg";
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+              URL.revokeObjectURL(svgUrl);
+      }
+    </script>
+  </body>
+</html>
+
