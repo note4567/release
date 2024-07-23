@@ -167,9 +167,13 @@ border-top: 0.3rem solid #fff;
 /* border-bottom-width: 0; */
 }
 
-.modal_hidden{
+/* .modal_hidden{
+  display: none;
+} */
+.display_none{
   display: none;
 }
+
 
 .modal_filter{
   position: fixed;

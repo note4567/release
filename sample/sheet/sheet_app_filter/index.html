@@ -270,7 +270,7 @@
                         //  重複要素を取り除く
                         col_vals = Array.from(new Set(col_vals));
                         // 親要素(tbody)の取得
-                        const filter_table = document.querySelector('table#filter_table');
+                        let filter_table = document.querySelector('table#filter_table');
 
                         // // tdのHTMLマークアップを作成し、tbodyのinnerHTMLに代入
                         // const tdHTML = col_vals.map((value, index, array) => {
@@ -278,15 +278,15 @@
                         // }).join('');
                         // filter_table.innerHTML = tdHTML;
                         console.log('[filterCheckList]',filterCheckList)
-                        const tdHTML = col_vals.map((value, index, array) => {
+                        let tdHTML = col_vals.map((value, index, array) => {
                             if (filterColumn !== column.getField()){
                                 filterCheckList.length = 0;
                             }
                             let td_html = ''
                             if(filterCheckList.includes(index)){
-                                td_html = `<tr><td><input type="checkbox" name="filter_ck" checked id="filter_td_${index}" value=${index} />${value}</td></tr>`
+                                td_html = `<tr><td><input type="checkbox" name="filter_ck" checked id="filter_td_${index}" value=${index} data-text=${value} />${value}</td></tr>`
                             }else{
-                                td_html =`<tr><td><input type="checkbox" name="filter_ck" id="filter_td_${index}" value=${index} />${value}</td></tr>`
+                                td_html =`<tr><td><input type="checkbox" name="filter_ck" id="filter_td_${index}" value=${index} data-text=${value} />${value}</td></tr>`
                             }
                             return td_html
                             // return `<tr><td><input type="checkbox" name="filter_ck" id="filter_td_${index}" value=${index} />${value}</td></tr>`
@@ -322,7 +322,23 @@
                         // フィルター検索Box
                         let filterSearchElement = document.querySelector('input#filter_text');
                         filterSearchElement.addEventListener('blur', function(){
-                            console.log(filterSearchElement.value.split(' '),"@@@@")
+                            filterSearchList = filterSearchElement.value.split(/\s+/);
+                            console.log(filterSearchList,"@@@@");
+                            let filterCheckBoxElement = document.querySelectorAll('input[name="filter_ck"]');
+                            filterCheckBoxElement.forEach(function(checkbox, index){
+                                // データ属性(data-text) を利用する
+                                if(filterSearchList.includes(checkbox.dataset.text)){
+                                    console.log('[checkBox.dataset.text]', checkbox.dataset.text);
+                                    checkbox.checked = true;
+                                } else if(filterSearchList.length[0]){
+                                    checkbox.checked = false;
+                                    console.log("partent",checkbox.parentElement)
+                                    checkbox.parentElement.parentElement.classList.add('display_none');
+                                    //checkbox.classList.add('display_none');
+                                }                                
+                            })
+                            
+                            //filterCheckList
                         })
                         // modal.style=`height:${modalHeight}px;`
                         
@@ -335,7 +351,7 @@
                             // ユーザが選択した checkBox を反映させるため以前のチェックリストを削除する
                             filterCheckList.length = 0;
                             // filterColumn = ''
-                            const filter_checkbox = modal.querySelectorAll('input[name=filter_ck]');
+                            let filter_checkbox = modal.querySelectorAll('input[name=filter_ck]');
                             filter_checkbox.forEach(function(checkbox,index) {
                                 if (checkbox.checked) {
                                     // index でやればよかった
