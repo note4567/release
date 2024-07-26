@@ -85,27 +85,29 @@
     
 //     return editor;
 // };
-function a(cell, formatterParams, onRendered){
-  console.log('aaaa',cell.getValue())
+function makeFilter(cell, formatterParams, onRendered){
+  // console.log('aaaa',cell.getValue())
   // n = cell.getValue()
   return `${cell.getValue()}<span class="filter_obj"></span>`
 }
 const columnDefinitions = [
   {title:"", field:"",cssClass: "custom",headerSort: false,  width:10, formatter:"rownum"},
   { title: "", field: "id", visible:false},
-  { title: "Brand", field: "brand", cssClass: "custom", editor: "input" ,headerSort: false,titleFormatter:a},
-  { title: "Script", field: "script", cssClass: "custom", editor: "input" ,headerSort: false,titleFormatter:a},
-  { title: "LBC", field: "lbc", cssClass: "custom", editor: "input" ,headerSort: false},
-  { title: "Name", field: "name", cssClass: "custom", editor: "input" ,headerSort: false}, // "input"エディタを使用
+  // { title: "Brand", field: "brand", cssClass: "custom", editor: "input" ,headerSort: false,titleFormatter:a},
+  // { title: "Script", field: "script", cssClass: "custom", editor: "input" ,headerSort: false,titleFormatter:a},
+  { title: "Brand", field: "brand", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Script", field: "script", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter},
+  { title: "LBC", field: "lbc", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Name", field: "name", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter}, // "input"エディタを使用
   { title: "URL", field: "url", cssClass: "custom", editor: "input" ,headerSort: false,width:150,formatter:"link", formatterParams:{
       labelField:"url",
       // urlPrefix:"mailto://",
       target:"_blank",
-  }},
-  { title: "Yagou", field: "yagou", cssClass: "custom", editor: "input" ,headerSort: false},
-  { title: "Item1", field: "item1", cssClass: "custom", editor: "input" ,headerSort: false},
-  { title: "Item2", field: "item2", cssClass: "custom", editor: "input" ,headerSort: false},
-  { title: "Records", field: "records", cssClass: "custom", editor: "input" ,headerSort: false},
+  }, titleFormatter: makeFilter},
+  { title: "Yagou", field: "yagou", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Item1", field: "item1", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Item2", field: "item2", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Records", field: "records", cssClass: "custom", editor: "input" ,headerSort: false, titleFormatter: makeFilter},
   { title: "Date", field: "date", cssClass: "custom", headerSort: false, editor:"date", editorParams:{
       min:"01/01/1955", // the minimum allowed value for the date picker
       //max:"02/12/2022", // the maximum allowed value for the date picker
@@ -114,9 +116,9 @@ const columnDefinitions = [
       elementAttributes:{
           title:"slide bar to choose option" // custom tooltip
       }
-  }},
-  { title: "Status", field: "status", cssClass: "custom", editor:"list", width:80,hozAlign:"center",editorParams:{values:[1,2,3,4,5,6,7,8,8.5,9,10,11,12,13,14,15]} ,headerSort: false},
-  { title: "Flag", field: "flag", cssClass: "custom", editor:"list", width:60,editorParams:{values:[0,1]} ,hozAlign:"center",headerSort: false},
+  }, titleFormatter: makeFilter},
+  { title: "Status", field: "status", cssClass: "custom", editor:"list", width:80,hozAlign:"center",editorParams:{values:[1,2,3,4,5,6,7,8,8.5,9,10,11,12,13,14,15]} ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Flag", field: "flag", cssClass: "custom", editor:"list", width:60,editorParams:{values:[0,1]} ,hozAlign:"center",headerSort: false, titleFormatter: makeFilter},
   //{ title: "Finish", field: "finish", cssClass: "custom", formatter:"rowSelection",width:70, hozAlign:"center",headerSort: false},
 //   { title: "Finish", field: "finish", cssClass: "custom",editor:custom_check,editorParams:{
 //   //{ title: "Finish", field: "finish", cssClass: "custom",editor:"tickCross",editorParams:{  
@@ -176,7 +178,7 @@ const columnDefinitions = [
         console.log(`[set]: false`);
         cell.setValue(false);
       }
-    },
+    }, titleFormatter: makeFilter
   },
 
   { title: "Del", field: "erase", cssClass: "custom", width:70, hozAlign:"center",headerSort: false, cellClick:function(e, cell){
@@ -188,5 +190,5 @@ const columnDefinitions = [
       let row = cell.getRow()
       console.log(`row: ${row}`)
       row.delete();
-  },},
+  }, titleFormatter: makeFilter},
 ]
