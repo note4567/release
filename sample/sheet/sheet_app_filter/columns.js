@@ -190,5 +190,5 @@ const columnDefinitions = [
       let row = cell.getRow()
       console.log(`row: ${row}`)
       row.delete();
-  }, titleFormatter: makeFilter},
+  }, },
 ]
