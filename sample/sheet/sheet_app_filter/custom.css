@@ -44,15 +44,37 @@ a {
    */
 }
 
-.line_top{
-  width: 600px;
   /* width: 47vw; */
+/* .line_top{
+  width: 600px;
+
+  border-bottom: 0.2rem #36304a solid;
+} */
+
+.large_line_top{
+  width: 600px;  
+  border-bottom: 0.2rem #36304a solid;
+}
+.mini_line_top{
+  width: unset;  
   border-bottom: 0.2rem #36304a solid;
 }
 
-.line_bottom{
-  width: 600px;
-  /* width: 47vw; */
+/* .line_bottom{
+  width: 600px;  
+  border-top: 0.2rem #36304a solid;
+  margin-left: auto;
+  margin-bottom: 3rem;
+} */
+
+.large_line_bottom{
+  width: 600px;  
+  border-top: 0.2rem #36304a solid;
+  margin-left: auto;
+  margin-bottom: 3rem;
+}
+
+.mini_line_bottom{  
   border-top: 0.2rem #36304a solid;
   margin-left: auto;
   margin-bottom: 3rem;

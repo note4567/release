@@ -117,8 +117,11 @@ const columnDefinitions = [
           title:"slide bar to choose option" // custom tooltip
       }
   }, titleFormatter: makeFilter},
-  { title: "Status", field: "status", cssClass: "custom", editor:"list", width:80,hozAlign:"center",editorParams:{values:[1,2,3,4,5,6,7,8,8.5,9,10,11,12,13,14,15]} ,headerSort: false, titleFormatter: makeFilter},
-  { title: "Flag", field: "flag", cssClass: "custom", editor:"list", width:60,editorParams:{values:[0,1]} ,hozAlign:"center",headerSort: false, titleFormatter: makeFilter},
+  // 値を中央寄せにする設定(hozAlign:"center") 及び列幅の設定(width:80) の削除
+  // { title: "Status", field: "status", cssClass: "custom", editor:"list", width:80,hozAlign:"center",editorParams:{values:[1,2,3,4,5,6,7,8,8.5,9,10,11,12,13,14,15]} ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Status", field: "status", cssClass: "custom", editor:"list", editorParams:{values:[1,2,3,4,5,6,7,8,8.5,9,10,11,12,13,14,15]} ,headerSort: false, titleFormatter: makeFilter},
+  // { title: "Flag", field: "flag", cssClass: "custom", editor:"list", width:60,editorParams:{values:[0,1]} ,headerSort: false, titleFormatter: makeFilter},
+  { title: "Flag", field: "flag", cssClass: "custom", editor:"list", editorParams:{values:[0,1]} ,headerSort: false, titleFormatter: makeFilter},
   //{ title: "Finish", field: "finish", cssClass: "custom", formatter:"rowSelection",width:70, hozAlign:"center",headerSort: false},
 //   { title: "Finish", field: "finish", cssClass: "custom",editor:custom_check,editorParams:{
 //   //{ title: "Finish", field: "finish", cssClass: "custom",editor:"tickCross",editorParams:{  
@@ -142,7 +145,8 @@ const columnDefinitions = [
 
   //{ title: "Finish", field: "finish", cssClass: "custom",editor:custom_check,width:70, hozAlign:"center",headerSort: false},
   // editor 属性でカスタムエディターを用いなくても cellClick イベントでチェックボックスは対応可能
-  { title: "Finish", field: "finish", cssClass: "custom",width:70, hozAlign:"center",headerSort: false,
+  // width:70 を削除
+  { title: "Finish", field: "finish", cssClass: "custom", headerSort: false,
     formatter:function(cell, formatterParams, onRendered){
         // cellClick でのセルの編集後に呼ばれる。
         console.log(`format`);
@@ -181,7 +185,8 @@ const columnDefinitions = [
     }, titleFormatter: makeFilter
   },
 
-  { title: "Del", field: "erase", cssClass: "custom", width:70, hozAlign:"center",headerSort: false, cellClick:function(e, cell){
+  // width:70,を削除
+  { title: "Del", field: "erase", cssClass: "custom", headerSort: false, cellClick:function(e, cell){
       // https://tabulator.info/docs/5.6/callbacks#column
       //e - the click event object
       //cell - cell component
