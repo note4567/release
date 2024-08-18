@@ -111,8 +111,7 @@ const columnDefinitions = [
   { title: "Date", field: "date", cssClass: "custom", headerSort: false, editor:"date", editorParams:{
       min:"01/01/1955", // the minimum allowed value for the date picker
       //max:"02/12/2022", // the maximum allowed value for the date picker
-      // format:"yyyy/mm/dd", // the format of the date value stored in the cell 
-      format:"yyyy/MM/dd",
+      format:"yyyy/mm/dd", // the format of the date value stored in the cell
       verticalNavigation:"table", //navigate cursor around table without changing the value
       elementAttributes:{
           title:"slide bar to choose option" // custom tooltip

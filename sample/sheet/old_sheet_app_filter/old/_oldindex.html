@@ -221,7 +221,9 @@
                 let filterCheckList = []
                 let modal = ''
                 table.on("headerClick", function(e, column){
-                   
+                    //e - the click event object
+                    //column - column component
+                    
                     // 子要素である 矢印要素
                     console.log('event.target.tagName',e.target.tagName)
                     console.log('event.target.tagName',event.target.className)
@@ -241,6 +243,14 @@
                             modal = '';
                         }
                         
+                        // if (filterColumn !== column.getField()){
+                        //         filterCheckList.length = 0;
+                        //     }
+                        // フィルターを表示する
+                        // modal.classList.remove('modal_hidden');
+                        // let col_vals = column.getCells().map(cell => cell.getValue());
+                        // 一時的な要素を作成${x_mouse}
+                        // const modal = document.createElement('div');
                         modal = document.createElement('div');
                         modal.innerHTML = `
                         <div class="modal_filter">
@@ -258,29 +268,60 @@
 
                         // 作成した要素をドキュメントに追加
                         document.body.appendChild(modal);
+                        // modal.classList.add('modal_hidden');
                         modal.style=`position: fixed; top: ${y_mouse}px; left:${x_mouse}px;`
+                        
+                        // modal.innerHTML = `
+                        // <div style="position: fixed; top: ${y_mouse}px; left:${x_mouse}px ; width: 20%; height: 30%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;">
+                        //     <div style="background-color: white; padding: 3%;">
+                        //         <p>選択してください</p>
+                        //         <button id="option1">オプション1</button>
+                        //         <button id="option2">オプション2</button>
+                        //         <table id="filter_table"></table>
+                        //     </div>
+                        // </div>
+                        // `;
+    
+                        // 作成した要素をドキュメントに追加
+                        // document.body.appendChild(modal);
+                        
                         // 
                         let col_vals = column.getCells().map(cell => cell.getValue());
                         //  重複要素を取り除く
                         col_vals = Array.from(new Set(col_vals));
                         // 親要素(tbody)の取得
                         let filter_table = document.querySelector('table#filter_table');
+
+                        // // tdのHTMLマークアップを作成し、tbodyのinnerHTMLに代入
+                        // const tdHTML = col_vals.map((value, index, array) => {
+                        //     return `<tr><td id="filter_td_${index}">${value}</td></tr>`
+                        // }).join('');
+                        // filter_table.innerHTML = tdHTML;
                         console.log('[filterCheckList]',filterCheckList)
                         let tdHTML = col_vals.map((value, index, array) => {
                             if (filterColumn !== column.getField()){
                                 filterCheckList.length = 0;
                             }
                             let td_html = ''
-                            // 値がない場合は Nothing の表記にする
-                            value = value == ""? 'Nothing': value;
                             if(filterCheckList.includes(index)){
                                 td_html = `<tr><td><input type="checkbox" name="filter_ck" checked id="filter_td_${index}" value=${index} data-text=${value} />${value}</td></tr>`
                             }else{
                                 td_html =`<tr><td><input type="checkbox" name="filter_ck" id="filter_td_${index}" value=${index} data-text=${value} />${value}</td></tr>`
                             }
                             return td_html
+                            // return `<tr><td><input type="checkbox" name="filter_ck" id="filter_td_${index}" value=${index} />${value}</td></tr>`
+                            // return `<ul><li><input type="checkbox" id="filter_td_${index}"/>${value}</li></ul>`
                         }).join('');
                         filter_table.innerHTML = tdHTML;
+                        
+                        // モーダルのサイズ設定 消去 2024/07/11
+                        // let checkBoxHeight = document.querySelector('table#filter_table tr').clientHeight;
+                        // // console.log('個数: ',col_vals.length)
+                        // let modalHeight = checkBoxHeight * ( col_vals.length + 2.5);
+                        // インナーのサイズ設定
+                        // document.querySelector('div.modal_filter_inner').style=`height:${modalHeight}px;`;
+                        // アウターのサイズ設定
+                        // 長さの取得につき参考URL: https://webfrontend.ninja/js-how-to-get-dimension-of-html-element/
 
                         // フィルター実行ボタンの設定
                         let filterOnElement = document.querySelector('button#filter_on');
@@ -313,7 +354,8 @@
                                     checkbox.checked = false;
                                     console.log("[display_none] partent ",checkbox.parentElement)
                                     checkbox.parentElement.parentElement.classList.add('display_none');
-                                }
+                                    //checkbox.classList.add('display_none');
+                                }                                
                             })
 
                             // フィルター検索Box で1個もヒットしなかった場合(全て display_none)は、全件表示する
@@ -323,25 +365,71 @@
                                     checkbox.parentElement.parentElement.classList.remove('display_none');
                                 });
                             }
+                            //console.log(document.querySelectorAll('table#filter_table tr:not(.display_none)'));
+                            //console.log('len(filterCheckBoxElement)',filterCheckBoxElement.length)
+                            
+                            //filterCheckList
                         })
+                        // modal.style=`height:${modalHeight}px;`
                         
+                        // td要素
+                        // 2024/06/26 filter_list を table.on の外部に定義したので filter_value filter_list は不要になった
+                        // let filter_value = ""
+                        // let filter_list = []
                         function getFilterCkeck(){
                             let filter_value = []
                             // ユーザが選択した checkBox を反映させるため以前のチェックリストを削除する
                             filterCheckList.length = 0;
+                            // filterColumn = ''
                             let filter_checkbox = modal.querySelectorAll('input[name=filter_ck]');
                             filter_checkbox.forEach(function(checkbox,index) {
                                 if (checkbox.checked) {
                                     // index でやればよかった
                                     console.log('チェックされています:', checkbox,"index:" ,index);
                                     console.log('[値]:', Number(checkbox.value));
+                                    // filter_value = col_vals[checkbox.id]
                                     filterCheckList.push(index);
                                     filter_value.push(col_vals[Number(checkbox.value)]);
                                 }
                             })
                             return filter_value
+                            // 2024/06/26 filter_list を table.on の外部に定義したので return 不要
+                            // return filter_list
                         };
-                       
+                        // filter_td.addEventListener('click', function(event) {
+                        //     // 一時的な要素を削除
+                        //     // document.body.removeChild(modal);
+                        //     let inputElement = event.currentTarget;
+                        //     console.log(inputElement.id); // 要素のIDを取得
+                        //     // console.log(clickedElement.className); // 要素のクラス名を取得
+                        //     // console.log(event)
+                        // });
+
+                        // 
+                        // function modal_delete() {
+                        //     setTimeout(function() {
+                        //         document.body.removeChild(modal);
+                        //         // modal.style.display = 'none';
+                        //         // modal.classList.add('modal_hidden');
+                        //         // if (!filter_list.length){
+                        //         //     console.log('if[filter_list] ',filter_list)
+                        //         //     getFilterCkeck();
+                        //         // }
+                        //         // filter_value = getFilterCkeck();
+                        //         console.log('[getFilterCkeck]',getFilterCkeck());
+                        //         // console.log('[filter_list] ',filter_list);
+                        //         // let filter_col = column.getField();
+                        //         filterColumn = column.getField();
+                        //         // table.setFilter(filter_col, "=", filter_value);
+                        //         // table.setFilter('script', "in", [99999, 11111]);
+                        //         // table.setFilter(filter_col, "in", filter_value);
+                        //         // table.setFilter(filter_col, "in", getFilterCkeck());
+                        //         table.setFilter(filterColumn, "in", getFilterCkeck());
+                        //     }, 5000);
+                        // }
+                        // modal_delete();
+
+                        //
                         function filterOn(){
                             document.body.removeChild(modal);
                             filterColumn = column.getField();
@@ -355,7 +443,11 @@
                             filterCheckList.length = 0;
                             modal = ''
                         }
-
+                        // console.log(column.getCells().map(cell => cell.getValue()));
+                        // let filter_col = column.getField()
+                        // table.setFilter(filter_col, "<", 230);
+                        // table.setFilter(filter_col, "=", filter_value);
+                        
                         document.addEventListener('click',function(e){
                             // if (!modal.contains(event.target)){
                             // クリックされた要素がモーダルに含まれていれば消去しない
@@ -367,9 +459,25 @@
                                 modal = ''
                                 console.log(modal);
                             } 
+                            // document.body.removeChild(modal);
+                            // e.stopPropagation();
+                            // e.stopImmediatePropagation();
                         })
                     }
+                    
+                    // 復元
+                    // table.clearFilter();
                 });
+                // [フィルター]
+                // document.getElementById("add-row").addEventListener("click", function(){
+                //     table.addRow({});
+                    // 行の削除
+                    //var row = table.getRow(1);
+                    //row.delete();
+                    //table.deleteRow(9);
+                // });
+                
+                
             </script>
         </section>
         </div><!-- programming-contents-contents -->
