@@ -297,6 +297,18 @@ table#filter_table tr td{
   margin: 0 0 0 auto;
 }
 
+div #modal_sheet_link_close{
+  position: absolute;
+  top: 2px;
+  left: 7px;
+  width: 5%;
+  height: 5%;
+  text-align: center;
+  /* background-color: rgba(247, 16, 16, 0.6);  */
+  /* overflow-y: scroll; */
+  margin: 0 0 0 auto;
+  color: rgba(255, 255, 255,0.8);
+}
 
 
 
@@ -343,6 +355,10 @@ table#filter_table tr td{
 }
 
 /* リンクのホバーの色 */
-a:hover{
+/* a:hover{
+  color: #b3d0d7;
+} */
+/* aタグの他、他のシートへのリンク文字列など */
+a:hover,li#sheet_link:hover, div#modal_sheet_link_close:hover{
   color: #b3d0d7;
 }
