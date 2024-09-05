@@ -1,6 +1,19 @@
+// #todo ---------------------------------------------------------------------------------------------------
+    // 2024/08/30  モーダルの表示位置を <ul class="navi"> の位置に合わせる → OK
+    // 2024/09/03 モーダルを閉じる処理 → OK
+    // 2024/09/03 モーダル処理のプロミス化 → OK
+    // 2024/09/04 コード整理 → 
+    // マスターシート以外のシータの表示する列などデータ構造を考える。
+    // ---------------------------------------------------------------------------------------------------
+
+// let sheet_link_element = document.querySelector('li#sheet_link');
+// sheet_link_element.addEventListener('click',create_link);
+    
+// function createModalSheet(event){
 // モーダルを作成して配置するまでの処理
 // Promise処理ではこの処理の終了を待機する
 function createModalSheet(liElement){
+    // event.stopPropagation();
     // 既に表示されている modal は一旦消す
     if (typeof modal_sheet_link !== 'undefined'){
         console.log("Remove modal_sheet_link")
@@ -15,9 +28,9 @@ function createModalSheet(liElement){
     <div class="modal_sheet_link">
         <div class="modal_sheet_inner">   
             <ul>
-                <li><a href="master.html">Master</a></li>
-                <li><a href="brand.html">Brand</a></li>                
-                <li><a href="verification.html">Verification</a></li>
+                <li><a href="#">Index</a></li>
+                <li><a href="#">Brand</a></li>                
+                <li><a href="#">Verification</a></li>
                 <li><a href="#">priority</a></li>
                 <li><a href="#">Verification_Sheet</a></li>
                 <li><a href="#">Verification_Sheet</a></li>
@@ -35,12 +48,44 @@ function createModalSheet(liElement){
     document.body.appendChild(modal_sheet_link);    
 
     // [modal を配置する位置を設定する](関数内で位置を取得しないと位置がずれる)
-    // li#sheet_link の位置を基準として調整する    
-    const POSITION_SHEET_LINK  = liElement.getBoundingClientRect();    
+    // li#sheet_link の位置を基準として調整する
+    // let sheet_link_element = document.querySelector('li#sheet_link');
+    const POSITION_SHEET_LINK  = liElement.getBoundingClientRect();
+    // const POSITION_SHEET_LINK  = sheet_link_element.getBoundingClientRect();
     const POSITION_X = POSITION_SHEET_LINK["left"] - POSITION_SHEET_LINK["width"] -20
     const POSITION_Y = POSITION_SHEET_LINK["bottom"];
-    modal_sheet_link.style=`position: fixed; top: ${POSITION_Y}px; left:${POSITION_X}px;`       
+    modal_sheet_link.style=`position: fixed; top: ${POSITION_Y}px; left:${POSITION_X}px;`
+    
+    // [スクロールイベントの設定]
+    // toggle により CSSを変化させる要素。
+    // この要素に modal_sheet_on_scroll クラスを付けてスクロールを表示させる。
+    // let modal_SheetLinkElement = document.querySelector('div.modal_sheet_link');
+    // // 右端の　div.modal_sheet_link_scroll　にマウスが入るとスクロールバーを表示させる
+    // let modal_SheetLinkScrollEelment = document.querySelector('div.modal_sheet_link_scroll');
+    // modal_SheetLinkScrollEelment.addEventListener('mouseenter',onScroll)
+    
+    // function onScroll(event){
+    //     console.log("CHangeeee!!")
+    //     modal_SheetLinkElement.classList.toggle('modal_sheet_on_scroll');
+    //     modal_SheetLinkScrollEelment.removeEventListener('mouseenter', onScroll)
+    //     setTimeout(() => {
+    //         modal_SheetLinkElement.classList.toggle('modal_sheet_on_scroll');
+    //         modal_SheetLinkScrollEelment.addEventListener('mouseenter',onScroll);
+    //     }, "5000")
+    // }
+    
+    // // 閉じるボタンの設定
+    // let linkCloseElement = document.querySelector('div#modal_sheet_link_close');
+    // linkCloseElement.addEventListener('click', function(){
+    //     document.body.removeChild(modal_sheet_link);
+    //     modal_sheet_link = undefined;
+    //     console.log("Remove modal_sheet_link  and  modal_sheet_link is undefined")
+    // }) 
 }
+
+
+// -------
+// let sheet_link_element = document.querySelector('li#sheet_link');
 
   
 function scrollOn(event){
@@ -53,10 +98,12 @@ function scrollOn(event){
 
     // スクロールバーがちらつくので、一旦自身のイベントを止める
     // 但し 5秒後には再びイベントを再開する
-    this.removeEventListener('mouseenter', scrollOn)   
+    this.removeEventListener('mouseenter', scrollOn)
+    // modal_SheetLinkScrollEelment.removeEventListener('mouseenter', onScroll)
     setTimeout(() => {
         modal_SheetLinkElement.classList.toggle('modal_sheet_on_scroll');
-        this.addEventListener('mouseenter',scrollOn);        
+        this.addEventListener('mouseenter',scrollOn);
+        // modal_SheetLinkScrollEelment.addEventListener('mouseenter',onScroll);
     }, "5000")
 }
 
@@ -78,7 +125,10 @@ function createLinkCloseElement(){
 }
 
 function removeLinkCloseElement(){
-    document.addEventListener('click',function(event){       
+    document.addEventListener('click',function(event){
+        // console.log('event.target  ', event.target)
+        // console.log('event.target.id  ', event.target.id)
+        // if (!modal.contains(event.target)){
         // クリックされた要素がモーダルに含まれていれば消去しない
         if(modal_sheet_link 
             && document.body.contains(modal_sheet_link) 
@@ -86,7 +136,8 @@ function removeLinkCloseElement(){
             && !modal_sheet_link.contains(event.target)){
             console.log('Delete modal_sheet_link');
             document.body.removeChild(modal_sheet_link);
-            modal_sheet_link = undefined;            
+            modal_sheet_link = undefined;
+            // console.log(modal_sheet_link);
         } 
     })     
 }
@@ -101,7 +152,8 @@ function createSheetLink() {
         // エラーの場合
         reject('Error!')
     })
-    .then(() => {            
+    .then((response) => {        
+    //   console.log(response);
         // スクロールバーを動的に表示させる 
         createScrollOn();
         // モーダルを閉じる x ボタンの設定
@@ -114,11 +166,6 @@ function createSheetLink() {
         console.log('[Error]',reason)
     })
   }
-
-// モーダルの起動
-let sheet_link_element = document.querySelector('li#sheet_link');
-sheet_link_element.addEventListener('click',createSheetLink);
-
 
 
 // async 処理の場合
@@ -143,6 +190,31 @@ sheet_link_element.addEventListener('click',createSheetLink);
 //         console.log('[Error]', reason);
 //     }
 // }
+
+// モーダルの起動
+let sheet_link_element = document.querySelector('li#sheet_link');
+sheet_link_element.addEventListener('click',createSheetLink);
+
+// ----------------------------------------
+
+
+// 
+// document.addEventListener('click',function(event){
+//     console.log('event.target  ', event.target)
+//     console.log('event.target.id  ', event.target.id)
+//     // if (!modal.contains(event.target)){
+//     // クリックされた要素がモーダルに含まれていれば消去しない
+//     if(modal_sheet_link 
+//         && document.body.contains(modal_sheet_link) 
+//         && event.target.id !== 'sheet_link' 
+//         && !modal_sheet_link.contains(event.target)){
+//         console.log('Delete modal_sheet_link');
+//         document.body.removeChild(modal_sheet_link);
+//         modal_sheet_link = undefined;
+//         console.log(modal_sheet_link);
+//     } 
+// })    
+
 
 // ----------------------------------------ここから先は create.app.js について ------
 // document.addEventListener('click',function(event){

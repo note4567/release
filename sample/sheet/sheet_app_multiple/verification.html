@@ -22,7 +22,8 @@
         <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.3/build/global/luxon.min.js"></script>
         <script type="text/javascript" src="tabulator.min.js"></script>
         <!-- column の定義に必要なライブラリ -->
-        <script src="columns.js"></script>        
+        <!-- <script src="columns.js"></script> -->
+        <script src="./columns_verification.js"></script>   
 
     <!--favicon-->
         <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
@@ -37,9 +38,9 @@
         <!-- {% csrf_token %} -->
         <div class="wrapper">
             <div id="line_top" class="large_line_top"></div>
-            <h1 class="page-title">Intage sheet</h1>
-            <ul class="navi">
-                <li><a href="#">Sheet</a></li>
+            <h1 class="page-title">Verification sheet</h1>
+            <ul class="navi">                
+                <li id="sheet_link">Sheet</li>
                 <li><a href="#">Item</a></li>
             </ul>
             <div id="line_bottom" class="large_line_bottom"></div>
@@ -58,4 +59,5 @@
         </footer> -->
     </body>
     <script type="text/javascript" src="./create_verification.js"></script>
+    <script type="text/javascript" src="./create_link.js"></script>
 </html>

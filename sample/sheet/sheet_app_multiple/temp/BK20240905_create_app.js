@@ -1,13 +1,3 @@
-// #todo ---------------------------------------------------------------------------------------------------
-    // 2024/08/30  モーダルの表示位置を <ul class="navi"> の位置に合わせる → OK
-    // 2024/09/03 モーダルを閉じる処理 → OK
-    // 2024/09/03 モーダル処理のプロミス化 → OK
-    // 2024/09/04 コード整理 → OK
-    // 2024/09/04 マスターシート以外のシータの表示する列などデータ構造を考える。→ OK
-    // 2024/09/05 column.js を verification 用に作成する(lbc を変える script を table にする) → OK    
-    // 2024/09/05 ブランドシートの作成
-    // ---------------------------------------------------------------------------------------------------
-
 // グローバル変数としてTabulatorのインスタンスを宣言
 var table;
 const csrfToken = "{{ csrf_token }}";
@@ -16,29 +6,29 @@ let filterColumn = ''
 let filterCheckList = []
 let modal = ''
 
-var table = new Tabulator("#verification_table", {
+var table = new Tabulator("#intage_table", {
     // layout:"fitColumns",
     data: [        
-        { id:991, table: 1045, name: "ミスタードーナツ", team: "survey",
-        priority:5, reason:"3行目住所が違う", fixes:"2024/07/18", submit:"", finish:false, memo:"修正中...", erase:'削除',cssClass: "custom"},        
-        { id:83, table:899, name: "ドミノ・ピザ", team: "engineer",
-        priority:9, reason:"定期処理で問題あり", fixes:"", submit:"", finish:false, memo:"", erase:'削除',cssClass: "custom"},
-        { id:331, table:178, name: "イオン", team: "manager",
-        priority:1, reason:"URL変更の為、再作成をお願いします", fixes:"2024/07/21", submit:"2024/07/23", finish:true, memo:"取得件数: 3521件", erase:'削除',cssClass: "custom"},
-        { id:143, table:899, name: "吉野家", team: "survey",
-        priority:9, reason:"再実行でお願いします。", fixes:"2024/07/05", submit:"", finish:false, memo:"原因調査開始", erase:'削除',cssClass: "custom"},
-        { id:873, table:3, name: "ユニクロ", team: "survey",
-        priority:5, reason:"13,19行,店名が HPと違う", fixes:"2024/07/19", submit:"2024/07/21", finish:true, memo:"完了:件数1500", erase:'削除',cssClass: "custom"},
-        { id:1011, table:1334,name: "ヤマダ電機", team: "survey",
-        priority:5, reason:"5~8行目取得漏れ", fixes:"2024/07/17", submit:"", finish:false, memo:"修正中...", erase:'削除',cssClass: "custom"},
-        { id:1400, table:45, name: "東急ハンズ", team: "survey",
-        priority:1, reason:"駐車場", fixes:"", submit:"", finish:false, memo:"", erase:'削除',cssClass: "custom"},
-        { id:8, table:88, name: "高島屋", team: "survey",
-        priority:1, reason:"全件営業時間取得漏れ", fixes:"", submit:"", finish:false, memo:"", erase:'削除',cssClass: "custom"},
-        { id:1792, table:841,name: "西武そごう", team: "manager",
-        priority:5, reason:"処理が重いので修正して下さい", fixes:"2024/07/08", submit:"2024/07/09", finish:true, memo:"403エラーの為、取得不能", erase:'削除',cssClass: "custom"},
-        { id:279, table:332, name: "紀伊國屋", team: "survey",
-        priority:5, reason:"2,8行目空白", fixes:"2024/07/27", submit:"", finish:false, memo:"修正中...", erase:'削除',cssClass: "custom"},
+        { id:991, brand: 122, script: 1045, lbc:12345678901,name: "マツモトキヨシ", url: "https://www.matsukiyo.co.jp/map/search?i=3",
+        yagou:"(株)マツモトキヨシ", item1:"", item2:"", records:23, date:"2023/10/11", status:8.5, flag:0, finish:true,erase:'削除',cssClass: "custom"},        
+        { id:83, brand: 2000, script:899, lbc:456,name: "ドミノ・ピザ", url: "https://www.dominos.jp/store-finder/",
+        yagou:"Domino's Pizza", item1:"施設・サービス", item2:"", records:1423, date:"", status:7, flag:1, finish:false,erase:'削除',cssClass: "custom"},
+        { id:331, brand: 123, script:178, lbc:12345688,name: "イオン", url: "https://www.aeon.com/store/",
+        yagou:"AEON", item1:"", item2:"", records:2001, date:"", status:7, flag:false, finish:true,erase:'削除',cssClass: "custom"},
+        { id:143, brand: 924, script:899, lbc:9999833,name: "吉野家", url: "https://stores.yoshinoya.com/yoshinoya/",
+        yagou:"吉野家", item1:"休日", item2:"営業日", records:2423, date:"2023/09/01", status:10, flag:0, finish:false,erase:'削除',cssClass: "custom"},
+        { id:873, brand: 235, script:3, lbc:7788728,name: "ユニクロ", url: "https://www.uniqlo.com/jp/ja/",
+        yagou:"ユニクロ", item1:"", item2:"", records:423, date:"", status:7, flag:1, finish:false,erase:'削除',cssClass: "custom"},
+        { id:1011, brand: 456, script:1334, lbc:22009434,name: "ヤマダ電機", url: "https://www.yamada-denkiweb.com/",
+        yagou:"ヤマダ電機", item1:"施設・サービス", item2:"", records:23, date:"2021/11/04", status:7, flag:1, finish:false,erase:'削除',cssClass: "custom"},
+        { id:1400, brand: 1123, script:45, lbc:2348844,name: "東急ハンズ", url: "https://hands.net/",
+        yagou:"HANDS", item1:"駐車場", item2:"", records:33, date:"", status:10, flag:1, finish:false,erase:'削除',cssClass: "custom"},
+        { id:8, brand: 987, script:88, lbc:999332,name: "高島屋", url: "https://www.takashimaya.co.jp/store/",
+        yagou:"TAKASHIMAYA", item1:"", item2:"", records:32, date:"", status:7, flag:1, finish:false,erase:'削除',cssClass: "custom"},
+        { id:1792, brand: 1001, script:841, lbc:234456,name: "西武そごう", url: "https://www.sogo-seibu.jp/",
+        yagou:"SEIBU SOGO", item1:"営業時間", item2:"", records:3, date:"2022/01/18", status:7, flag:1, finish:false,erase:'削除',cssClass: "custom"},
+        { id:279, brand: 23, script:332, lbc:798898,name: "紀伊國屋", url: "https://www.kinokuniya.co.jp/",
+        yagou:"紀伊國屋", item1:"", item2:"", records:1423, date:"", status:7, flag:1, finish:true,erase:'削除',cssClass: "custom"},
     ],
     columns : columnDefinitions,  // 列の定義を外部ファイルから取得       
     });
