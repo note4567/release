@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <!-- {% load static %} -->
+        <title>Smaple</title>
+        <meta name="description" content="【】 ">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> -->
+        <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+        <!-- CSS -->
+        <link href="./tabulator.min.css" rel="stylesheet">
+        <link href="./custom.css" rel="stylesheet">
+        <!-- JS -->        
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script> -->
+        <!-- 日付の入力に必要なライブラリ -->
+        <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.3/build/global/luxon.min.js"></script>
+        <script type="text/javascript" src="tabulator.min.js"></script>
+        <!-- column の定義に必要なライブラリ -->
+        <script src="columns_job_site.js"></script>        
+
+    <!--favicon-->
+        <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff"> -->
+    </head>
+
+    <body>
+        <!-- {% csrf_token %} -->
+        <div class="wrapper">
+            <div id="line_top" class="large_line_top"></div>
+            <h1 class="page-title">Job site sheet</h1>
+            <ul class="navi">
+                <!-- <li id="sheet_link"><a href="./verification.html">Sheet</a></li> -->
+                <!-- <li id="sheet_link"><a href="#">Sheet</a></li> -->
+                <li id="sheet_link">Sheet</li>
+                <li><a href="#">Item</a></li>
+            </ul>
+            <div id="line_bottom" class="large_line_bottom"></div>
+            <section>
+                <div id="job_site_table">
+                </div>
+                <div id="add-dvi">
+                    <button id="add-row"> Add </button>
+                </div>
+            </section>
+        </div>
+        <!-- <footer class="light_pink">
+            <div class="wrapper">
+                <p><small>&copy; my_memo</small></p>
+            </div>
+        </footer> -->
+    </body>
+    <script type="text/javascript" src="create_job_site.js"></script>
+    <script type="text/javascript" src="./create_link.js"></script>
+</html>
