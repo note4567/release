@@ -19,7 +19,7 @@ function createModalSheet(liElement){
                 <li><a href="brand.html">Brand</a></li>                
                 <li><a href="verification.html">Verification</a></li>
                 <li><a href="job_site.html">Job_Site</a></li>
-                <li><a href="#">Spot</a></li>                
+                <li><a href="spot.html">Spot</a></li>                
             </ul>
         </div>
         <div class="modal_sheet_link_scroll"></div>
@@ -33,7 +33,8 @@ function createModalSheet(liElement){
     // [modal を配置する位置を設定する](関数内で位置を取得しないと位置がずれる)
     // li#sheet_link の位置を基準として調整する    
     const POSITION_SHEET_LINK  = liElement.getBoundingClientRect();
-    const POSITION_X = POSITION_SHEET_LINK["left"] - POSITION_SHEET_LINK["width"] -20
+    // const POSITION_X = POSITION_SHEET_LINK["left"] - POSITION_SHEET_LINK["width"] -20;
+    const POSITION_X = POSITION_SHEET_LINK["left"] - POSITION_SHEET_LINK["width"] +20;
     const POSITION_Y = POSITION_SHEET_LINK["bottom"];
     modal_sheet_link.style=`position: fixed; top: ${POSITION_Y}px; left:${POSITION_X}px;`       
 }
