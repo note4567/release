@@ -8,9 +8,14 @@
     // 2024/09/05 ブランドシートの作成 → OK 2024/09/12
     // 2024/09/12 jos_siteシートの作成 → OK 2024/09/12
     // 2024/09/13 spotシートの作成 → → OK 2024/09/17
-    // 2024/09/13 フィルターのデザイン変更 → 作成中  https://designup.jp/css-scrollbar.html
-    // filter のクリックイベントの改良（範囲拡大）
+    // 2024/09/13 フィルターのデザイン変更 → OK 2024/09/18
+    // 2024/09/18 filter のクリックイベントの改良（範囲拡大）→ OK 2024/09/19 (css にて対応)
+    // 2024/09/20 フィルター設定時の矢印の色を変える
+    // 2024/09/   csvエクスポート
     // cd ./Desktop/資料/git_sample/release/sample/sheet/
+    // git add .
+    // git commit -m "20240918_sheet-app"
+    // git push -uf origin main
     // ---------------------------------------------------------------------------------------------------
 
 // グローバル変数としてTabulatorのインスタンスを宣言
@@ -80,84 +85,6 @@ table.on("cellClick", function(e, cell){
     }
 });
 
-
-//  検証用なので後で削除する --------------------------------------------------
-// table.on("cellEdited", function(cell){     
-//     //[削除処理] -----------------------------------------------------------------
-//     // サーバーから返された値の中で、削除した id を取得する。
-//     // 返却メッセージが delete の場合
-//     // この例では cell.getValue() で代替している
-//     // この id が現在のテーブルに有るかどうか検索する。
-//     // 検索した結果が存在すれば削除処理を実行する。
-//     // 無ければ削除処理は実行しない。
-//     console.log('[cell]:', cell.getValue());
-//     // RowToDelete = table.searchData("id", "=", 83);
-//     // searchData: https://tabulator.info/docs/6.2/filter#search-data
-//     RowToDelete = table.searchData("id", "=", cell.getValue());    
-//     if (RowToDelete.length > 0){
-//         console.log("[RowToDelete]: ",RowToDelete[0]["id"])
-//         table.deleteRow(RowToDelete[0]["id"]) 
-//     }    
-//     // console.log("[searchRows] ",table.searchRows("id", "=", 83)); → これだと取得した値が proxy になる
-//     // -----
-
-//     // [更新と行の作成] ------------------------------------------------------------
-//     // idが無い空白行を削除
-//     let RowToInsert = table.searchRows("id", "=", undefined);
-//     console.log('[id が無い行を取得]',RowToInsert);
-//     if (RowToInsert.length > 0){
-//         console.log('@@@@@',RowToInsert, typeof(RowToInsert));       
-//         table.deleteRow(RowToInsert)        
-//     }
-//     // ------------------------------------------------------------
-    
-//     // update とcreate はこれで対応可能
-//     // 返却メッセージが update の場合
-//     // サーバーから返された値から更新対象の行を取得する
-//     // 返却された行と
-//     // この id が現在のテーブルに有るかどうか検索する。
-//     // 検索した結果が存在しなければ、id が無い行(addされた行)に行全体を更新する。
-    
-//     // console.log('[id が無い行を取得]',table.searchData("id", "=", null));
-//     // searchDataではダメ
-//     // let RowToInsert = table.searchData("id", "=", undefined);
-//     // let RowToInsert = table.searchRows("id", "=", undefined);
-
-//     // var row = table.getRow(RowToInsert);
-//     // console.log("vvvvv",row, typeof row)
-//     // table.updateOrAddData([{id:undefined,lbc:"-999"}]);
-
-//     // if (RowToInsert.length > 0){
-//     //     console.log('@@@@@',RowToInsert, typeof(RowToInsert));
-//     //     // RowToInsert[0]["id"] = 99999
-//     //     // RowToInsert[0]["lbc"] = 1111
-//     //     // https://tabulator.info/docs/6.2/update#addrow
-//     //     // RowToInsert.delete();
-        
-//     //     // table.deleteRow(RowToInsert[0]['id']) 
-//     //     table.deleteRow(RowToInsert) 
-//     //     // table.replaceData([RowToInsert[0], {id:2,lbc:"7777"}]) 
-//     //     // table.updateOrAddData([{id:999,lbc:"999"}]);
-//     // }
-//     // table.updateOrAddData(RowToInsert);
-//     // table.updateOrAddData([{id:"", lbc:777}]);
-    
-//     // idが存在すれば、サーバーから取得した行と現在のシートの行の差分のみ更新する。
-//     // delete は id についてき if文で切り分ける(既に削している場合は処理しない)
-//     // table.deleteRow(83)
-//     // https://www.homes.co.jp/realtor/
-//     // ---------
-
-//     // table.setData([{id:83, lbc:777},{id:84, lbc:777},{id:85, lbc:777},{id:86, lbc:777},{id:87, lbc:777}]);
-//     // localStorage.setItem('x_mouse', event.clientX);
-//     // localStorage.setItem('y_mouse', event.clientY);
-//     // console.log(localStorage.getItem('x_mouse'));
-//     // console.log(localStorage.getItem('y_mouse'));
-//     // console.log(table);
-//     // table.setData(table["data"][0])
-// });
-//  ---------------------------------------------------------------------------
-
 // 挿入
 table.on("rowAdded", function(row){        
     console.log('[data add]:', row.getData())
@@ -189,7 +116,10 @@ table.on("cellEdited", function(cell){
 // https://tabulator.info/docs/6.2/components#component-cell
 
 // フィルター処理
-table.on("headerClick", function(event, column){   
+table.on("headerClick", function(event, column){
+    // debug
+    console.log("aaaa",event.target)
+    // event.target.style.backgroundColor = 'red';
     // 子要素である 矢印要素
     console.log('event.target.tagName',event.target.tagName)
     console.log('event.target.tagName',event.target.className)
@@ -210,20 +140,6 @@ table.on("headerClick", function(event, column){
         }
         
         modal = document.createElement('div');
-        // modal.innerHTML = `
-        // <div class="modal_filter">
-        //     <div class="modal_filter_inner"">
-        //         <div id="filter_button">
-        //             <button id="filter_on" class="filter_on_off">filter</button>
-        //             <button id="filter_off" class="filter_on_off">clear</button>
-        //             <button id="modal_close">X</button>
-        //         </div>
-        //         <div><input type="text" id="filter_text" placeholder=" search ... "></div>
-        //         <table id="filter_table"></table>
-        //     </div>
-        // </div>
-        // `;
-
         modal.innerHTML = `
         <div class="modal_filter">
             <div class="modal_filter_inner"">

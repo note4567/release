@@ -125,25 +125,19 @@ a {
 }
 
 
-/* テーブルのスクロールバーの設定 */
+/* ------------------------------↓ テーブルのスクロールバーの設定 ↓------------------------------*/
 .tabulator-tableholder::-webkit-scrollbar {
-  /* scrollbar-width: thin; */
   width: 5px;
   height: 7px;
   display: none;
 }
 
 .tabulator-tableholder::-webkit-scrollbar-thumb {
-  /* scrollbar-width: thin; */
-  
-  /* background-color: rgba(0,0,0,0.1); */
   background-color: rgba(54, 48, 74, 0.1);
   border-radius: 30px;
 }
 
 .tabulator-tableholder:hover::-webkit-scrollbar {
-  /* background-color: rgba(0,0,0,0.8);
-  border-radius: 20px; */
   display: block;
 }
 
@@ -158,13 +152,19 @@ display: block;
 position: absolute;
 top: 0.3rem;
 right: 100%;
-width: 0;
-height: 0;
+/* width: 0;
+height: 0; */
+/* 2024/09/18 サイズ拡大(クリックイベントの範囲拡大の為) */
+width: 9px;
+height: 15px;
 transform: translateX(180%);
 border: 0.3rem solid transparent;
 border-top: 0.3rem solid #fff;
+/* border-top: 0.3rem solid #e02113; */
 }
 
+
+/* モーダルウインドウ(フィルター)の表示・非表示の切り替え */
 .display_none{
   display: none;
 }
