@@ -10,7 +10,9 @@
     // 2024/09/13 spotシートの作成 → → OK 2024/09/17
     // 2024/09/13 フィルターのデザイン変更 → OK 2024/09/18
     // 2024/09/18 filter のクリックイベントの改良（範囲拡大）→ OK 2024/09/19 (css にて対応)
-    // 2024/09/20 フィルター設定時の矢印の色を変える
+    // 2024/09/20 フィルター設定時の矢印の色を変える → OK 2024/09/20(spotシートのみ)
+    // 2024/09/24 フィルター設定時の矢印の色を変える → 全てのシートに行う
+    // 2024/09/24 再考する filter のクリックイベントの改良（範囲拡大)
     // 2024/09/   csvエクスポート
     // cd ./Desktop/資料/git_sample/release/sample/sheet/
     // git add .
@@ -118,7 +120,8 @@ table.on("cellEdited", function(cell){
 // フィルター処理
 table.on("headerClick", function(event, column){
     // debug
-    console.log("aaaa",event.target)
+    console.log("[headerClick]",event.target);
+    console.table('[headerClick_data-type]', event.target.dataset.type)
     // event.target.style.backgroundColor = 'red';
     // 子要素である 矢印要素
     console.log('event.target.tagName',event.target.tagName)
@@ -129,7 +132,9 @@ table.on("headerClick", function(event, column){
     console.log('e.clientX:',event.clientX)
     let x_mouse = event.clientX
     let y_mouse = event.clientY
-    if (event.target.className === 'filter_obj'){
+    // if (event.target.className === 'filter_obj'){
+    // 2024/09/20 修正(クラス名からカスタムHTML属性に変更)
+    if (event.target.dataset.type === 'filter'){
         console.log(column.getField());
         console.log(column.getCells().map(cell => cell.getValue()));
 
@@ -194,6 +199,7 @@ table.on("headerClick", function(event, column){
         let filterCloseElement = document.querySelector('button#modal_close');
         filterCloseElement.addEventListener('click', function(){
             document.body.removeChild(modal);
+            // clearModal();
             modal = '';
         })
         // フィルター検索Box
@@ -240,37 +246,75 @@ table.on("headerClick", function(event, column){
             return filter_value
         };
        
+        // 現在操作している filter_obj クラスを定義
+        filter_event = event.target
+        console.log('evvvvvvvvvvvvvvvvvvvvv', filter_event)
         function filterOn(){
             document.body.removeChild(modal);
             filterColumn = column.getField();
             table.setFilter(filterColumn, "in", getFilterCkeck());
-            modal = ''
+            clearModal(filter_event);
+            // modal = ''
         }
 
         function filterOff(){
             document.body.removeChild(modal);
             table.clearFilter();
             filterCheckList.length = 0;
-            modal = ''
+            clearModal(filter_event);
+            // modal = ''
         }
 
         document.addEventListener('click',function(event){
             // if (!modal.contains(event.target)){
-            // クリックされた要素がモーダルに含まれていれば消去しない
-            if(modal && document.body.contains(modal) && 
-            event.target.className !== 'filter_obj' && 
-            !modal.contains(event.target)){
-                console.log('Delete');
-                document.body.removeChild(modal);
-                modal = ''
-                console.log(modal);
+            // クリックされた要素がモーダルに含まれていれば消去しない if (event.target.dataset.type === 'filter'){
+            if(modal && document.body.contains(modal)
+            // event.target.className !== 'filter_obj' &&
+                && event.target.dataset.type !== 'filter' 
+                && !modal.contains(event.target)){
+                    console.log('Delete');                
+                    document.body.removeChild(modal);
+                    // clearModal();
+                    modal = ''
+                    console.log(modal);
             } 
         })
     }
 });
 
 
-
+function clearModal(filter_event){
+    console.log("clearrrrr!!",filter_event);
+    console.log("[filterCheckList]",filterCheckList.length);
+    if (filterCheckList.length) {
+        // todo 2024/09/20
+        // 現在のフィルター以外のフィルターが存在している場合は、他のフィルターの色を戻す
+        // 一旦全てのフィルターを解除する → OK だがこれについきコードにまとめる
+        let filterObjElement = document.querySelectorAll('.filter_obj');
+        console.log(filterObjElement)
+        filterObjElement.forEach(function(element){
+            console.log(element.className)
+            element.classList.remove('filter_obj_on');
+        })
+        filter_event.classList.add('filter_obj_on');
+        
+    } else {
+        let filterObjElement = document.querySelectorAll('.filter_obj');
+        console.log(filterObjElement)
+        filterObjElement.forEach(function(element){
+            console.log(element.className)
+            element.classList.remove('filter_obj_on');
+        })
+        // filter_event.classList.remove('filter_obj_on');
+    }
+    
+    // filter_event.classList.remove('filter_obj');
+    // document.querySelector('span.filter_obj').classList.add('filter_obj_on');
+    // document.querySelector('span.filter_obj_on').classList.remove('filter_obj');
+    // console.log("clearrrrr!!",document.querySelector('span.filter_obj_on'));
+    // document.querySelector('span.filter_obj').classList.remove('filter_obj_on');
+    modal = ''    
+}
 
 
 

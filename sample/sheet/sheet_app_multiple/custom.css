@@ -142,26 +142,56 @@ a {
 }
 
 /* ------------------------------↓ フィルター ↓------------------------------*/
-/* フィルターに必要な矢印アイコン */
-span.filter_obj{
+/* フィルターに必要な矢印アイコン(旧版) */
+/* span.filter_obj{
   position: relative;
+  z-index: 300;
 }
 .filter_obj::after {
 content: "";
 display: block;
 position: absolute;
 top: 0.3rem;
-right: 100%;
+right: 100%; */
 /* width: 0;
 height: 0; */
 /* 2024/09/18 サイズ拡大(クリックイベントの範囲拡大の為) */
-width: 9px;
+/* width: 9px;
 height: 15px;
 transform: translateX(180%);
 border: 0.3rem solid transparent;
 border-top: 0.3rem solid #fff;
-/* border-top: 0.3rem solid #e02113; */
+} */
+
+/* フィルターに必要な矢印アイコン */
+.filter_obj{
+  display: inline-block;
+  /* vertical-align: middle; */
+  /* color: #fff; */
+  /* line-height: 1; */
+  width: 9px;
+  height: 15px;
+  /* border-style: solid; */
+  /* border-color: transparent; */
+  /* border-width: 0.64952em 0.375em; */
+  /* border-width: 0.3em; */
+  margin-left: 5px;
+  /* border-top-color: currentColor; */
+  /* border-bottom: 0; */
+
+  border: 0.3rem solid transparent;
+  border-top: 0.3rem solid #fff;
 }
+.filter_obj_on{
+  /* display: inline-block;
+  width: 9px;
+  height: 15px;
+  margin-left: 5px;
+  border: 0.3rem solid transparent; */
+  border-top: 0.3rem solid #f51d0e;
+}
+
+
 
 
 /* モーダルウインドウ(フィルター)の表示・非表示の切り替え */
