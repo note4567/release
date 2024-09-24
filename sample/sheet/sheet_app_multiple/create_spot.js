@@ -12,8 +12,8 @@
     // 2024/09/18 filter のクリックイベントの改良（範囲拡大）→ OK 2024/09/19 (css にて対応)
     // 2024/09/20 フィルター設定時の矢印の色を変える → OK 2024/09/20(spotシートのみ)
     // 2024/09/24 フィルター設定時の矢印の色を変える → 全てのシートに行う
-    // 2024/09/24 再考する filter のクリックイベントの改良（範囲拡大)
-    // 2024/09/   csvエクスポート
+    // 2024/09/24 再考する filter のクリックイベントの改良（範囲拡大) → OK
+    // 2024/09/25 csvエクスポート
     // cd ./Desktop/資料/git_sample/release/sample/sheet/
     // git add .
     // git commit -m "20240918_sheet-app"
@@ -286,27 +286,43 @@ table.on("headerClick", function(event, column){
 function clearModal(filter_event){
     console.log("clearrrrr!!",filter_event);
     console.log("[filterCheckList]",filterCheckList.length);
-    if (filterCheckList.length) {
-        // todo 2024/09/20
-        // 現在のフィルター以外のフィルターが存在している場合は、他のフィルターの色を戻す
-        // 一旦全てのフィルターを解除する → OK だがこれについきコードにまとめる
-        let filterObjElement = document.querySelectorAll('.filter_obj');
-        console.log(filterObjElement)
-        filterObjElement.forEach(function(element){
-            console.log(element.className)
-            element.classList.remove('filter_obj_on');
-        })
-        filter_event.classList.add('filter_obj_on');
+
+    // 一旦全てのフィルターを解除する
+    let filterIconElement = document.querySelectorAll('.filter_icon');
+    console.log(filterIconElement)
+    filterIconElement.forEach(function(element){
+        console.log(element.className)
+        element.classList.remove('filter_obj_on');
+    })
+
+    // フィルターのアイコンの色を変える
+    if (filterCheckList.length) {            
+        // .filter_icon クラスが設定せれている要素にクラスを追加
+        filter_event.parentElement.classList.add('filter_obj_on');        
+    } 
+    // if (filterCheckList.length) {        
+    //     // 一旦全てのフィルターを解除する → OK 
+    //     let filterObjElement = document.querySelectorAll('.filter_icon');
+    //     // let filterObjElement = document.querySelectorAll('.filter_obj');
+    //     console.log(filterObjElement)
+    //     filterObjElement.forEach(function(element){
+    //         console.log(element.className)
+    //         element.classList.remove('filter_obj_on');
+    //     })
+    //     // .filter_icon クラスが設定せれている要素にクラスを追加
+    //     filter_event.parentElement.classList.add('filter_obj_on');
+    //     // filter_event.classList.add('filter_obj_on');
         
-    } else {
-        let filterObjElement = document.querySelectorAll('.filter_obj');
-        console.log(filterObjElement)
-        filterObjElement.forEach(function(element){
-            console.log(element.className)
-            element.classList.remove('filter_obj_on');
-        })
-        // filter_event.classList.remove('filter_obj_on');
-    }
+    // } else {
+    //     let filterObjElement = document.querySelectorAll('.filter_icon');
+    //     // let filterObjElement = document.querySelectorAll('.filter_obj');
+    //     console.log(filterObjElement)
+    //     filterObjElement.forEach(function(element){
+    //         console.log(element.className)
+    //         element.classList.remove('filter_obj_on');
+    //     })
+    //     // filter_event.classList.remove('filter_obj_on');
+    // }
     
     // filter_event.classList.remove('filter_obj');
     // document.querySelector('span.filter_obj').classList.add('filter_obj_on');

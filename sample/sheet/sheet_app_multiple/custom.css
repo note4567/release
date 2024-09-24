@@ -164,31 +164,54 @@ border-top: 0.3rem solid #fff;
 } */
 
 /* フィルターに必要な矢印アイコン */
+/* 参考URL: https://design-library.jp/lab/arrow-triangle-down */
+/* filter_obj クラスでクリックさせる為 filter_icon が重なりが下。filter_obj が重なりが上側 */
+.filter_icon{
+  position: relative;
+  display: inline-block;
+  width: 9px;
+  height: 15px;
+  margin-left: 5px;
+  border: 0.3rem solid transparent;
+  border-top: 0.3rem solid #fff;
+}
 .filter_obj{
   display: inline-block;
   /* vertical-align: middle; */
   /* color: #fff; */
   /* line-height: 1; */
-  width: 9px;
-  height: 15px;
   /* border-style: solid; */
   /* border-color: transparent; */
   /* border-width: 0.64952em 0.375em; */
   /* border-width: 0.3em; */
-  margin-left: 5px;
   /* border-top-color: currentColor; */
   /* border-bottom: 0; */
 
+  /* 2024/09/23 一旦コメントアウト */
+  /* width: 9px;
+  height: 15px;
+  margin-left: 5px;  
   border: 0.3rem solid transparent;
-  border-top: 0.3rem solid #fff;
+  border-top: 0.3rem solid #fff; */
+
+  position: absolute;
+  width: 20px;
+  height: 25px;
+  /* margin-left: 5px;   */
+  /* filter_icon　の上に重ねる */
+  left: -10px;
+  top: -10px;
+  border: 0.3rem solid transparent;
+  /* border-top: 0.3rem solid #16be16; */
 }
+
 .filter_obj_on{
   /* display: inline-block;
   width: 9px;
   height: 15px;
   margin-left: 5px;
   border: 0.3rem solid transparent; */
-  border-top: 0.3rem solid #f51d0e;
+  border-top: 0.3rem solid #f81404;
 }
 
 
