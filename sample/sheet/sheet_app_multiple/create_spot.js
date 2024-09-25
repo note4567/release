@@ -12,6 +12,7 @@
     // 2024/09/18 filter のクリックイベントの改良（範囲拡大）→ OK 2024/09/19 (css にて対応)
     // 2024/09/20 フィルター設定時の矢印の色を変える → OK 2024/09/20(spotシートのみ)
     // 2024/09/24 フィルター設定時の矢印の色を変える → 全てのシートに行う
+    // 2024/09/25 フィルターの設定を spot以外の他のフィルターにも設定する。設定項目は // todo 2024/09/25 の箇所 → OK 
     // 2024/09/24 再考する filter のクリックイベントの改良（範囲拡大) → OK
     // 2024/09/25 csvエクスポート
     // cd ./Desktop/資料/git_sample/release/sample/sheet/
@@ -246,9 +247,8 @@ table.on("headerClick", function(event, column){
             return filter_value
         };
        
-        // 現在操作している filter_obj クラスを定義
-        filter_event = event.target
-        console.log('evvvvvvvvvvvvvvvvvvvvv', filter_event)
+        // 現在操作している filter_obj クラスを定義        
+        filter_event = event.target        
         function filterOn(){
             document.body.removeChild(modal);
             filterColumn = column.getField();
@@ -282,7 +282,7 @@ table.on("headerClick", function(event, column){
     }
 });
 
-
+// 
 function clearModal(filter_event){
     console.log("clearrrrr!!",filter_event);
     console.log("[filterCheckList]",filterCheckList.length);

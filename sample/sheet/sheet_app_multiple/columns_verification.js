@@ -1,5 +1,5 @@
 function makeFilter(cell, formatterParams, onRendered){
-  return `${cell.getValue()}<span class="filter_obj"></span>`
+  return `${cell.getValue()}<span class="filter_icon"><span class="filter_obj" data-type=filter></span></span>`
 }
 
 const columnDefinitions = [

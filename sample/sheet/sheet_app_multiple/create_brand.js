@@ -296,18 +296,19 @@ table.on("headerClick", function(event, column){
             return filter_value
         };
        
+        filter_event = event.target   
         function filterOn(){
             document.body.removeChild(modal);
             filterColumn = column.getField();
             table.setFilter(filterColumn, "in", getFilterCkeck());
-            modal = ''
+            clearModal(filter_event);            
         }
 
         function filterOff(){
             document.body.removeChild(modal);
             table.clearFilter();
             filterCheckList.length = 0;
-            modal = ''
+            clearModal(filter_event);            
         }
 
         document.addEventListener('click',function(event){
@@ -325,11 +326,19 @@ table.on("headerClick", function(event, column){
     }
 });
 
+function clearModal(filter_event){
+    // 一旦全てのフィルターを解除する
+    let filterIconElement = document.querySelectorAll('.filter_icon');
+    console.log(filterIconElement)
+    filterIconElement.forEach(function(element){
+        console.log(element.className)
+        element.classList.remove('filter_obj_on');
+    })
 
-
-
-
-
-
-
-
+    // フィルターのアイコンの色を変える
+    if (filterCheckList.length) {            
+        // .filter_icon クラスが設定せれている要素にクラスを追加
+        filter_event.parentElement.classList.add('filter_obj_on');        
+    }     
+    modal = ''    
+}
